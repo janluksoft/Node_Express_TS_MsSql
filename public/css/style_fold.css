@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+.fold-table {
+    background-color: #8c9fd7;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 0px;
+    vertical-align: inherit;
+}
+
+table {
+  font-size: 10pt;
+}
+    table th {
+        text-align: left;
+        /*border-bottom: 1px solid #ccc; */
+    }
+    table th, table td {
+      padding: 2px 8px;
+    }
+
+    table thead {
+        background-color: #b0bee5;
+    }
+
+table.fold-table > tbody > tr.view {
+    background: #EEE;
+}
+
+    table.fold-table > tbody > tr.view:hover {
+        background: #CCC;
+    }
+
+
+table.fold-table > tbody > tr.view td, table.fold-table > tbody > tr.view th {
+  cursor: pointer;
+}
+
+table.fold-table > tbody > tr.view td:first-child,
+table.fold-table > tbody > tr.view th:first-child {
+  position: relative;
+  padding-left: 2px;
+}
+
+table.fold-table > tbody > tr.view td {
+    padding: 4px 3px;
+}
+
+table.fold-table > tbody > tr.selected2 {
+  background-color: #cbd3e7 !important;
+  border: 1px solid #2b4797;
+}

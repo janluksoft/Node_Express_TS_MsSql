@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/default.css"/> 
+    <link rel="stylesheet" href="../css/style_fold.css"/>
+    <title>{{zPageTitle}}</title>
+</head>
+
+<!-- ====== BODY ================== -->
+<body onload= "bodyOnLoad({{zbIsLogged}}, {{zbErrorTab}}, {{znPostResult}})">
+  {{> navig }}
+
+  <div class="start">
+
+    <div class="main">Table1 from MsSql server</div>
+    <p style="font-size: 13px; width: 450px;">
+      Below is table1 read from the database server
+    </p>
+
+    <!--Expecting 'CLOSE_RAW_BLOCK', 'CLOSE', 'CLOSE_UNESCAPED', 'OPEN_SEXPR', 'CLOSE_SEXPR', 'ID', 'OPEN_BLOCK_PARAMS', 'STRING', 'NUMBER', 'BOOLEAN', 'UNDEFINED', 'NULL', 'DATA', 'SEP', got 'INVALID' -->
+    <!-- https://handlebarsjs.com/guide/builtin-helpers.html#if -->
+    {{#if zbIsLogged}}
+
+      {{#if zbErrorTab}}
+        <div class="box_main box-err">
+          {{zsMessDown}}
+        </div>  
+      {{else}}
+
+        <table border="0">
+          <tr>
+            <td>
+              <div class="box_main" style="width: 320px; background-color: #b6f7d7;">
+                <div>Table from MsSql load succesful. 
+                </div>
+              </div>  
+            </td>
+            <td>
+
+                <div id="idDivMessRight" class="box_main" style="display:none; width: 320px; background-color: #b6f7d7;">
+                  <div style="font-size: 14px;">{{zsMessDown}}</div>
+                </div>  
+
+            </td>
+          </tr>
+          <tr>
+          <td>
+            <div class="table-responsive">
+              <table id="idFoldTable" class="fold-table" style="width: 360px;">
+                <thead>
+                    <tr> <th>id</th><th>title</th><th>description</th> </tr>
+                </thead>
+                <tbody>
+                  {{#each ztTable}}
+                    <tr class="view">
+                        <td>{{this.id}}</td><td>{{this.title}}</td><td>{{this.description}}</td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+
+          </td>
+          <td style="vertical-align: top;">
+
+            <form id="idFormEdit" name="nFormEdit" class="box_main" style="width: 370px;">
+              <div style="color:#2b4797; padding: 1px 16px 6px 10px;"><b>Vehicle parameters</b>.</div>
+              <table>
+                <tr><td>Id:</td><td><input id="sidId" name="nId" value="-1" class="in-txt" style="width: 50px" type="text"/></td>
+                <td><button id="idButVal" type="button" style="margin-top: 6px; padding: 3px 6px;">Valid</button></td>
+                </tr>
+                <tr><td>Title:</td><td><input id="sidTitle" name="nTitle" value="" class="in-txt" type="text"/></td>
+                <td><div id="midTitle" class="valid_err"></div></td>
+                </tr>
+                <tr><td>Description:</td><td><input id="sidDescription" name="nDescription" value="" class="in-txt_200" type="text"/></td>
+                <td><div id="midDescription" class="valid_err"></div></td>
+                </tr>
+              </table>
+              <!-- !!! mandatory declare type="button" bacause default is 'submit' --->
+              <button id="idButAdd" type="button" style="padding: 3px 6px;">
+                Add new pos</button> <!-- type="submit" -->
+              <button id="idButUpd" type="button" style="padding: 3px 6px;">
+                Update Post</button>
+              <button id="idButU" type="button"  style="padding: 3px 6px;">
+                Update Put</button>
+              <button id="idButDel" type="button"  style="padding: 3px 6px;">
+                Delete</button>
+              
+            </form>
+
+          </td>
+        </tr>
+        </table>
+
+      {{/if}}
+
+    {{else}} 
+
+      <div class="box_main box-err">
+        <b>You are not logged</b><br/>
+        You are not logged in to the database server. <br/>
+        You cannot read any tables from the server. <br/>
+        Click the "Login" tab and log in to the server.
+      </div>  
+
+    {{/if}}
+
+    <p style="color: #777;">The page was loaded ({{zCount}}) times ({{znTLogged}})</p>
+
+  </div>
+
+  {{> footer}}
+
+  <!-- === SCRIPT ================================ -->
+
+  <script>
+    function bodyOnLoad(xbIsLogged, xbErrorTab, xnPostResult) {
+      let bt1 = true;
+      let bt2 = true;
+      bt1 = xbErrorTab;
+      bt2 = xbIsLogged;
+      if(!bt1 && bt2)
+      {
+        const st1 = "Your login details are correct."+
+            " The application has logged in to the MsSql server"+ 
+            " and can now read tables from the MsSql server.";
+        //  alert(st1);        
+        if(xnPostResult > -1) {
+          let jDivMessRight = document.getElementById("idDivMessRight");
+          jDivMessRight.style.display = 'block'; //'hidden';
+          if(xnPostResult == 0) //message about error 
+            jDivMessRight.style.backgroundColor= '#faba90';
+        }
+
+        // Click on tr line
+        const tbody = document.querySelector('#idFoldTable tbody');
+
+        tbody.addEventListener('click', 
+        //--- Click on Table Row ------------------
+        function (e) {
+          const cell = e.target.closest('td');
+          if (!cell) {return;} // Quit, not clicked on a cell
+          const row = cell.parentElement;
+
+              let classList = row.classList;
+          
+              if(classList.contains('selected2')) {
+                  classList.remove('selected2');
+                  jMoveSelectedParams(false, row); //Rewriting data from the line
+              }
+              else {
+                const ctrs = e.currentTarget.children;
+                for(let xtr of ctrs) {
+                  xtr.classList.remove('selected2');
+                }
+                classList.add('selected2');
+                jMoveSelectedParams(true, row); //Rewriting data from the line
+             }
+
+        }); 
+
+        //--- Click button Add --------
+        document.getElementById('idButAdd').addEventListener('click', 
+        function (e) { 
+          jSubmitFormPost('post','');
+        });
+
+        //--- Click button Update --------
+        document.getElementById('idButUpd').addEventListener('click', 
+        function (e) { 
+          nId = document.getElementById("sidId").value;
+          jSubmitFormPost('post', 'jupdate');  //(xsEndPoint)
+        });
+
+        //--- Click button Update PUT --------
+        document.getElementById('idButU').addEventListener('click', 
+        function (e) { 
+          nId = document.getElementById("sidId").value;
+          jSubmitFormPost('post', '?_method=PUT');  //(xsEndPoint)
+        });
+
+        //--- Click button DELETE Row --------
+        document.getElementById('idButDel').addEventListener('click', 
+        function (e) { 
+          jSubmitFormPost('post', '?_method=DELETE', false);
+        });
+
+        //--- Click button Valid --------
+        document.getElementById('idButVal').addEventListener('click', 
+        function (e) { 
+          const bOut = jValidAll();
+          alert('Valid procedure: '+ bOut);
+        });
+
+      }
+      else if(!bt1 && !bt2)
+      {
+        const st1 = "Login details have an error: ."+ 
+          " Correct your login details";
+        alert(st1);        
+      }
+
+    }
+    
+    //----------------------------------------
+    function jMoveSelectedParams(xbcopy, xrow) {
+      let sId = '-1';
+      let sTitle = '';
+      let sDescription = '';
+
+      if(xbcopy){
+        sId = xrow.cells[0].innerText;
+        sTitle = xrow.cells[1].innerText;
+        sDescription = xrow.cells[2].innerText;
+        document.getElementById("idDivMessRight").style.display = 'none'; //'block';
+      }
+
+      document.getElementById("sidId").value = sId;
+      document.getElementById("sidTitle").value = sTitle;
+      document.getElementById("sidDescription").value = sDescription;
+    }
+
+    //----------------------------------------
+    function jSubmitFormPost (xsMethod, xsEndPoint, xbCheck = true) { 
+      if(xbCheck) {
+        const bOut = jValidAll();
+        if (!bOut) {
+          alert('Valid procedure: '+ bOut+ ': Action canceled');
+          return(false);
+        }
+      }
+
+      let jform = document.getElementById("idFormEdit");
+      jform.setAttribute('method', xsMethod);         //'GET'); //'post'
+      jform.setAttribute('action', '/'+ xsEndPoint);  
+      jform.submit();
+
+      return(true);
+    }
+
+    //----------------------------------------
+    function jValidAll() {
+      const tsInputs = [
+        {sin: "sidTitle", mes: "midTitle"},
+        {sin: "sidDescription", mes: "midDescription"},
+      ];
+
+      let b1 = true;
+      let bOut = true;
+      for (let xjson of tsInputs) {
+        b1 = jValidOne(xjson.sin, xjson.mes);
+        bOut = bOut && b1;
+      }
+      return (bOut);
+
+      //--------------------
+      function jValidOne(xsIdInput, xsIdMess) {
+
+        let divMess = document.getElementById(xsIdMess); 
+        const st1 = (document.getElementById(xsIdInput).value).trim();
+        let bOk = true;
+        if(st1 == "") {
+          bOk = false;
+          divMess.innerText = "Wrong";
+          divMess.classList.remove('valid_ok');
+          divMess.classList.add('valid_err');
+        }
+        else {
+          divMess.innerText = "OK";
+          divMess.classList.remove('valid_err');
+          divMess.classList.add('valid_ok');
+        }
+        return(bOk);
+      }
+    }    
+
+  </script>
+  <!-- === SCRIPT END ============================ -->
+
+</body>
+</html>

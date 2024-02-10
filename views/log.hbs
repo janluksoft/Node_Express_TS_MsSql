@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/default.css"/> 
+    <link rel="stylesheet" href="../css/style_fold.css"/> 
+    <link rel="stylesheet" href="../css/button.css"/> 
+    <title>{{zPageTitle}}</title>
+</head>
+
+<!-- ============================== -->
+<body onload= "bodyOnLoad()">
+  {{> navig }}
+
+  <div class="start">
+
+    <div class="main">Node login to MsSql server page</div>
+    <p style="font-size: 13px; width: 450px;">On this page - the button sends login data to the Node server 
+      using the POST method. The server analyzes these login details. If the data is correct 
+      - the Node will let you read read the tables from database MsSql server.
+      </p>
+
+    <!-- EQUALS 0 Expecting 'OPEN_SEXPR', 'ID', 'STRING', 'NUMBER', 'BOOLEAN', 'UNDEFINED', 'NULL', 'DATA', got 'EQUALS' -->
+    {{#unless znTLogged }}
+      <p>Start page</p>
+    {{/unless}}
+
+    <!--Expecting 'CLOSE_RAW_BLOCK', 'CLOSE', 'CLOSE_UNESCAPED', 'OPEN_SEXPR', 'CLOSE_SEXPR', 'ID', 'OPEN_BLOCK_PARAMS', 'STRING', 'NUMBER', 'BOOLEAN', 'UNDEFINED', 'NULL', 'DATA', 'SEP', got 'INVALID' -->
+    {{#unless zbIsLogged}} <!-- Negative #if zbIsLogged -->
+      <div class="box_main" style="width: 440px; background-color: #f7decd;">
+        <p style="font-size: 14px;">Connect to MsSql database.<br/>
+          Enter the correct login and press the button.
+          If the data logging is correct - you will receive a message
+          and you will be able to read tables from the MsSql database.
+        </p>
+      </div>  
+
+      <form action="/jlogin" method="POST" class="box_main" style="width: 440px;">
+        <div style="color:#2b4797; padding: 1px 16px 6px 10px;"><b>Login to MsSql database</b>.</div>
+        <table>
+          <tr><td>Host:</td><td><input id="sidHost" name="nHost" value={{zlog.host}} class="in-txt" type="text"/></td>
+              <td>User:</td><td><input id="sidUser" name="nUser" value={{zlog.username}} class="in-txt" type="text"/></td>
+          </tr>
+
+          <tr><td>Database:</td><td><input id="sidDataBase" name="nDataBase" value={{zlog.database}} class="in-txt" type="text"/></td>
+              <td>Pass:</td><td><input id="sidPass" name="nPass" value={{zlog.password}} class="in-txt" type="password"/></td>
+          </tr>
+
+          <tr><td>Port:</td><td><input id="sidPort" name="nPort" value={{zlog.port}} class="in-txt" type="text"/></td>
+              <td></td>
+              <td><button style="margin-top: 6px; padding: 3px 6px;"
+              type="submit" ><b>Connect to table</b></button></td>
+          </tr>
+
+        </table>
+      </form>
+
+      {{#if zbErrorLog}}
+        <div class="box_main" style="width: 320px; background-color: #faba90;">
+          <div style="font-size: 14px;">{{zsMessDown}}</div>
+        </div>  
+      {{/if}}
+
+
+    {{else}} 
+      <form action="/logdis" method="GET" class="box_main" style="width: 440px;">
+        <div style="color:#2b4797; padding: 1px 16px 6px 10px;"><b>You are logged into the MsSql database:</b></div>
+        <table>
+          <tr><td class="gray1">Host:</td><td><div class="in-txt">{{zlog.host}}</div></td>
+              <td class="gray1">User:</td><td><div class="in-txt">{{zlog.username}}</div></td>
+          </tr>
+
+          <tr><td class="gray1">Database:</td><td><div class="in-txt">{{zlog.database}}</div></td>
+              <td class="gray1">Pass:</td><td><div class="in-txt">**************</div></td>
+          </tr>
+
+          <tr><td class="gray1">Port:</td><td><div class="in-txt">{{zlog.port}}</div></td>
+              <td colspan="2"><button  style="margin-top: 6px; padding: 3px 6px;"
+              type="submit" >Disconnect database</button></td>
+          </tr>
+
+        </table>
+      </form>
+
+      <div class="box_main" style="width: 440px; background-color: #dbf8e9;">
+        <div>Logged succesful. 
+          Now, you can read the tables from database MsSql server in other tabs or you can Disconnect the Database.
+        </div>
+      </div>  
+
+    {{/unless}}
+
+    <p style="color: #777;">The page was loaded ({{zCount}}) times ({{znTLogged}})</p>
+
+  </div>
+
+  {{> footer}}
+
+  <!-- === SCRIPT ================================ -->
+
+  <script>
+    function bodyOnLoad() {
+      let bt1 = true;
+      let bt2 = true;
+    }
+  </script>
+  <!-- === SCRIPT END ============================ -->
+
+</body>
+</html>

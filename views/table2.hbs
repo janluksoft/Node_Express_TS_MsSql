@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/default.css"/> 
+    <link rel="stylesheet" href="../css/style_fold.css"/> 
+    <link rel="stylesheet" href="../css/button.css"/> 
+    <title>{{zPageTitle}}</title>
+</head>
+<body>
+  {{> navig }}
+
+  <div class="start">
+
+    <div class="main">{{zPageTitle}}</div>
+
+    {{#if zbIsTable }}
+    {{else}}
+
+      <h2>The Node Express CRUD MVC app with the Sequelize ORM framework
+      </h2>
+      <p>
+        Node Express CRUD MVC application with the Sequelize ORM database framework and file structure: 
+        router, controllers, view, model. The application works with the <b>MsSql database. 
+        Sequelize</b> is a modern TypeScript ORM framework for Node.js for fast database communication. 
+        Featuring solid transaction support, relations, eager and lazy loading, read replication and more.
+      </p>
+      <p style="font-size: 12pt; font-weight:bold;">The idea of a web application</p>
+      <p>
+        This web application demonstrates the use of CRUD actions (Create, Read, Update, Delete) 
+        of GET, POST, PUT, DELETE methods by making browser requests to a node server and vice versa.
+      </p>
+
+      <p style="font-size: 12pt;">This application has:</p>
+      <ul>
+        <li>Express framework;</li>
+        <li>JavaScript language;</li>
+        <li>Built-in middleware: express.static;</li>
+        <li>Partials (layouts) of header, footer</li>
+        <li>Hbs template engine;</li>
+        <li>Helpers: [#each], [#if];</li>
+        <li>Multi-page portal - switching from the menu;</li>
+        <li>Request handling: Get, Post</li>
+        <li>Division into file structure:</li>
+        <ul>
+          <li>Server;</li>
+          <li>App_hbs;</li>
+          <li>Routers;</li>
+          <li>Controller applications (POST, PUT, DELETE method);</li>
+          <li>Controller pages (GET method);</li>
+          <li>Model of database;</li>
+          <li>Views;</li>
+          <li>Data class;</li>
+        </ul>
+      </ul>
+
+      <p style="font-size: 12pt; font-weight:bold;">Operation of the web application</p>
+
+      <p><b>Good MVC pattern with separation of operations</b><br/>
+        This application has a good file structure, following the MVC pattern for separating back-end tasks: application, router, controllers, views, models.
+        Many websites are used in large web-apps. Handling multiple pages in one file - causes confusion and lack of order. 
+        Therefore, tasks are divided into different folders and files. GET commands are handled by PagesController.js, POST, PUT, DELETE by ApplicationsController.js and separation is handled by: \routes\router.js.  
+        Pages are switched via the Get method. The router finds the correct EndPoint and based on it, renders the page to the browser.
+      </p>
+
+      <p><b>Database login</b><br/>
+        On the Log page - the button sends login data to the Node server using the POST method. 
+        To log in to the MsSql server, you need to enter several fields correctly. The server analyzes these 
+        login details. If the data is correct - Node will return the data from MsSql for display.
+      </p>
+ 
+      <p><b>Automatic Sequelize operation</b><br/>
+        When the required table is not present in the database - you do not need to create the table via SQL query
+        - the Sequelize framework will create this table automatically. 
+        This is a great advantage of the Sequelize OMR framework.
+      </p>
+ 
+      <p><b>Next actions</b><br/>
+        In the table1 page you can run/use actions: Create, Read, Update, Delete.
+      </p>
+
+    {{/if}}
+
+    <br/>
+    <p style="color:#4e7cc8;">The page was loaded {{zCount}} times. Reload it</p>
+
+  </div>
+
+
+
+  {{> footer}}
+
+</body>
+</html>

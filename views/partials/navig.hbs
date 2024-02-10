@@ -1,0 +1,26 @@
+            <div class="jheader" >
+                <table>
+                <tr>
+                    <td><img src="../images/nodejs02.jpg" height="36" ></td>
+                    <td><div style="font-size: 20pt; margin-left: 30px; margin-right: 80px; color: #555;">
+                    Internet technologies
+                    </div></td>
+                </tr>
+                </table>
+            </div>
+
+
+    <nav>
+        <div style="margin: 0px;">
+
+            <button type="button" style="padding: 3px 6px;"><a href="/">Home</a></button>
+            <button type="button" style="padding: 3px 6px;"><a href="log">Login</a></button>
+            <button type="button" style="padding: 3px 6px;"><a href="table1">Table1</a></button>
+            <button type="button" style="padding: 3px 6px;"><a href="about">About</a></button>
+            {{#if zbIsLogged}}
+                <a class="small-gray1" style="float: right;">Logged as {{zlog.username}}</a>
+            {{else}}
+                <a class="small-gray1" style="float: right;"">Not Logged</a>
+            {{/if}}
+        </div>
+    </nav>
