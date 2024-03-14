@@ -3,7 +3,7 @@
 The Node Express CRUD MVC application with the Sequelize ORM database framework and file structure: router, controllers, view, model. The application works with the <b>MsSql database. Sequelize</b> is a modern TypeScript ORM framework for Node.js for fast database communication. Featuring solid transaction support, relations, eager and lazy loading, read replication and more.
 
 .
-![](jpg/Node_MsSql_14a.png)
+![](jpg/node-mssql_1_onlinec.gif)
 
 ## The idea of a web application
 
@@ -30,6 +30,9 @@ This application has:
     - Data class;
 
 .
+![](jpg/Node_MsSql_14a.png)
+
+.
 ![](jpg/Node_MsSql_15b.png)
 
 ## Operation of the web application
@@ -45,5 +48,10 @@ When the required table is not present in the database - you do not need to crea
 
 ### Next actions
 In the table1 page you can run/use actions: Create, Read, Update, Delete.
+
+Original mp4:
+<video src="https://github.com/janluksoft/Contents_test/assets/114884750/7e53d3f2-d13a-4aed-99eb-020581f1a2a4" autoplay loop muted>
+</video>
+
 
 ![](jpg/Node_MsSql_05b.png)
